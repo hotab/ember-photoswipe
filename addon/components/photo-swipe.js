@@ -174,7 +174,18 @@ export default Component.extend({
 
     assignedOptions = assign({}, options, actionOptions);
     pswp = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, assignedOptions);
-
+    pswp.listen('gettingData', function(index, item) {
+      if (item.w < 1 || item.h < 1) { // unknown size
+        var img = new Image();
+        img.onload = function() { // will get size after load
+          item.w = this.width; // set image width
+          item.h = this.height; // set image height
+          pswp.invalidateCurrItems(); // reinit Items
+          pswp.updateSize(true); // reinit Items
+        }
+        img.src = item.src; // let's download image
+      }
+    });
     pswp.init();
 
     this.set('pswp', pswp);
