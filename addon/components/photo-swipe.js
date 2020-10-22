@@ -174,6 +174,7 @@ export default Component.extend({
 
     assignedOptions = assign({}, options, actionOptions);
     pswp = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, assignedOptions);
+    assignedOptions.pswp = pwsp;
     pswp.listen('gettingData', function(index, item) {
       if (item.w < 1 || item.h < 1) { // unknown size
         var img = new Image();
